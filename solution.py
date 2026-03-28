@@ -1,25 +1,18 @@
 import math
 import sys
-input = sys.stdin.readline
 
 
 def getMinUpgradationTime(req1, t1, req2, t2):
-    g = math.gcd(req1, req2)
-    lcm = req1 // g * req2
+    lcm = req1 * req2 // math.gcd(req1, req2)
 
     def feasible(T):
-        mult_req1 = T // req1
-        mult_req2 = T // req2
-        mult_lcm = T // lcm
-
-        # A: slots usable ONLY by server 1 (multiples of req2, not req1)
-        A = mult_req2 - mult_lcm
-        # B: slots usable ONLY by server 2 (multiples of req1, not req2)
-        B = mult_req1 - mult_lcm
-        # C: slots usable by EITHER server (not multiples of req1 or req2)
-        C = T - mult_req1 - mult_req2 + mult_lcm
-
-        return t1 <= A + C and t2 <= B + C and t1 + t2 <= A + B + C
+        # available slots for server 1 (not multiples of req1)
+        avail1 = T - T // req1
+        # available slots for server 2 (not multiples of req2)
+        avail2 = T - T // req2
+        # total non-wasted slots (not blocked for BOTH servers simultaneously)
+        avail_both = T - T // lcm
+        return avail1 >= t1 and avail2 >= t2 and avail_both >= t1 + t2
 
     lo = 1
     hi = 2 * (t1 + t2 + 1) * max(req1, req2)
@@ -34,12 +27,9 @@ def getMinUpgradationTime(req1, t1, req2, t2):
     return lo
 
 
-def main():
+if __name__ == '__main__':
     req1 = int(input())
     t1 = int(input())
     req2 = int(input())
     t2 = int(input())
     print(getMinUpgradationTime(req1, t1, req2, t2))
-
-
-main()
