@@ -20,7 +20,6 @@ import matplotlib.pyplot as plt
 from pyspark.sql import SparkSession
 
 from config import Config
-from data_generator import generate_synthetic_data
 
 logger = logging.getLogger(__name__)
 
@@ -153,6 +152,7 @@ class ScalabilityAnalyzer:
             logger.info("Scalability test — %d records …", n)
 
             if not os.path.exists(csv_path):
+                from data_generator import generate_synthetic_data
                 generate_synthetic_data(csv_path, num_records=n, seed=7)
 
             spark_time  = _spark_pipeline(self.spark, csv_path)

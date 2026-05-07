@@ -125,8 +125,8 @@ def plot_trip_distance_distribution(zone_pdf: pd.DataFrame, charts_dir: str) -> 
     ax.hist(data, bins=30, color="#457b9d", edgecolor="white",
             alpha=0.8, density=True)
 
-    from scipy.stats import gaussian_kde
     try:
+        from scipy.stats import gaussian_kde
         kde_x  = np.linspace(data.min(), min(data.max(), 25), 300)
         kde_y  = gaussian_kde(data)(kde_x)
         ax.plot(kde_x, kde_y, color="#e63946", linewidth=2.5, label="KDE")

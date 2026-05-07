@@ -24,8 +24,6 @@ from pyspark.ml.evaluation import (
     ClusteringEvaluator,
     RegressionEvaluator,
 )
-from pyspark.ml.tuning import CrossValidator, ParamGridBuilder
-
 from config import Config
 
 logger = logging.getLogger(__name__)
