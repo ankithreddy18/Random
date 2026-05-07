@@ -127,9 +127,14 @@ class EVRecommender:
             0.40 * zone_pdf["gap_score"]
         )
 
-        # ---- Keep only zones above minimum trip threshold
+        # ---- Adaptive hotspot threshold: configured value OR top-40% of zones,
+        #      whichever is lower — ensures recommendations are always produced.
+        adaptive_threshold = min(
+            self.config.MIN_TRIPS_FOR_HOTSPOT,
+            float(zone_pdf["total_trips"].quantile(0.60)),
+        )
         hotspots = zone_pdf[
-            zone_pdf["total_trips"] >= self.config.MIN_TRIPS_FOR_HOTSPOT
+            zone_pdf["total_trips"] >= adaptive_threshold
         ].copy()
 
         # ---- Exclude zones already well-covered
