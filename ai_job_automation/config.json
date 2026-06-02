@@ -1,0 +1,56 @@
+{
+  "_comment": "Fill in every value below, then update the matching placeholders in workflow.json",
+
+  "google_sheets": {
+    "sheet_id": "YOUR_GOOGLE_SHEET_ID",
+    "_how_to_find": "Open your Google Sheet → copy the long ID from the URL between /d/ and /edit",
+    "sheet1_name": "Candidate Profile",
+    "sheet2_name": "Job Output Sheet",
+    "_sheet2_columns": [
+      "job_id", "title", "company", "url", "salary", "location",
+      "tags", "fit_score", "reasoning", "match_highlights", "date_posted", "saved_at"
+    ]
+  },
+
+  "gmail": {
+    "recipient_email": "user@example.com",
+    "_note": "Replace user@example.com in workflow.json node 'Send Daily Summary Email' → sendTo"
+  },
+
+  "openai": {
+    "model": "gpt-4o-mini",
+    "credential_name": "OpenAI API",
+    "_auth_header_format": "Bearer YOUR_OPENAI_API_KEY",
+    "_how_to_get_key": "platform.openai.com → API keys → Create new secret key"
+  },
+
+  "decodo": {
+    "credential_name": "Decodo API",
+    "_auth_header_format": "Basic YOUR_DECODO_API_KEY",
+    "_how_to_get_key": "app.decodo.com → API → Scraping API → Get API Key",
+    "_job_source_url": "https://remoteok.com/api",
+    "_alternate_sources": [
+      "https://remoteok.com/api?tags=dev",
+      "https://remoteok.com/api?tags=engineer",
+      "https://remoteok.com/api?tags=python",
+      "https://remoteok.com/api?tags=javascript"
+    ]
+  },
+
+  "fit_score_filter": {
+    "current_threshold": 40,
+    "presets": {
+      "strict_high_quality": 60,
+      "balanced": 50,
+      "default": 40,
+      "high_volume": 30
+    },
+    "_where_to_change": "workflow.json → node 'Filter High Fit Jobs' → parameters.conditions.number[0].value2"
+  },
+
+  "schedule": {
+    "cron": "0 8 * * *",
+    "_meaning": "Runs every day at 8:00 AM UTC",
+    "_where_to_change": "workflow.json → node 'Daily Trigger' → parameters.rule.interval[0].expression"
+  }
+}
