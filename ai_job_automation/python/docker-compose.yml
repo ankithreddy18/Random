@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  job-automation:
+    build: .
+    env_file: .env
+    volumes:
+      # Mount your service account key (read-only)
+      - ./service_account.json:/app/service_account.json:ro
+      # Persist the log file on the host
+      - ./job_automation.log:/app/job_automation.log
+    restart: "no"
